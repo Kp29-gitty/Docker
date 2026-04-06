@@ -8,7 +8,7 @@ pipeline {
     }
     stage('2.Build Image') {
       steps{
-        bat 'docker build -t Myweb .'
+        bat 'docker build -t myweb .'
     }
     }
     stage ('3.Stop/Remove old Containers') {
@@ -20,7 +20,7 @@ pipeline {
   } 
     stage('4.Run the Image- Containerize') {
       steps {
-        bat 'docker run -d -p 50000:80 --name mycont Myweb'
+        bat 'docker run -d -p 50000:80 --name mycont myweb'
     
   }
 } 
