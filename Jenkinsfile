@@ -11,7 +11,7 @@ pipeline {
         bat 'docker build -t Myweb .'
     }
     }
-    satge ('3.Stop/Remove old Containers') {
+    stage ('3.Stop/Remove old Containers') {
       steps{ 
         bat 'docker stop mycont || exit 0'
         bat 'docker rm mycont|| exit 0'
