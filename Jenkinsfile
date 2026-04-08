@@ -1,28 +1,53 @@
 pipeline {
-  agent any 
-  stages{
-    stage('1.checkout') {
-      steps{
-        git url: 'https://github.com/Kp29-gitty/Docker', branch:'main'
-      }
-    }
-    stage('2.Build Image') {
-      steps{
-        bat 'docker build -t myweb .'
-    }
-    }
-    stage ('3.Stop/Remove old Containers') {
-      steps{ 
-        bat 'docker stop mycont || exit 0'
-        bat 'docker rm mycont|| exit 0'
-    
-  }
-  } 
-    stage('4.Run the Image- Containerize') {
-      steps {
-        bat 'docker run -d -p 50000:80 --name mycont myweb'
-    
-  }
-} 
-  }
+
+agent any
+
+stages {
+
+stage('Pull Node and Nginx Images') {
+
+steps {
+
+bat 'docker pull node:16'
+
+bat 'docker pull nginx:alpine'
+
+}
+
+}
+
+stage('Build Node App') {
+
+steps {
+
+bat 'docker build -t node-app -f dockernode .'
+
+}
+
+}
+
+stage('Build HTML App') {
+
+steps {
+
+bat 'docker build -t html-app -f dockerhtml .'
+
+}
+
+}
+
+stage('Run Containers') {
+
+steps {
+
+bat 'docker run -d -p 3003:3000 node-app'
+
+bat 'docker run -d -p 8082:80 html-app'
+
+}
+
+}
+
+}
+
 }
